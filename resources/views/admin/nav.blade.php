@@ -1,7 +1,12 @@
 <ul id="user_options" class="dropdown-content">
   <li><a href="#!">Perfil</a></li>
   <li class="divider"></li>
-  <li><a href="{{ route('logout') }}">Salir</a></li>
+  <li>
+    <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Salir</a>
+    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
+  </li>
 </ul>
 <nav>
   <div class="nav-wrapper blue darken-1">
