@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 // Route::group(['prefix'=>'admin', 'middleware' => ['auth', 'admin']], function(){
 
-Route::group(['prefix'=>'admin'], function(){
+Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
 
 	Route::get('/', function(){
 		return view('admin.index');
@@ -71,17 +71,20 @@ Route::group(['prefix'=>'admin'], function(){
 /*
 | Rutas para login
 */
-Route::get('/login', [
-	'uses' 	=>	'Auth\AuthController@getLogin',
-	'as'	=>	'login'
-	]);
+// Route::get('/login', [
+// 	'uses' 	=>	'Auth\AuthController@getLogin',
+// 	'as'	=>	'login'
+// 	]);
 
-Route::post('/login', [
-	'uses' 	=>	'Auth\AuthController@postLogin',
-	'as'	=>	'login'
-	]);
+// Route::post('/login', [
+// 	'uses' 	=>	'Auth\AuthController@postLogin',
+// 	'as'	=>	'login'
+// 	]);
 
-Route::get('/logout', [
-	'uses' 	=>	'Auth\AuthController@getLogout',
-	'as'	=>	'logout'
-	]);
+// Route::get('/logout', [
+// 	'uses' 	=>	'Auth\AuthController@getLogout',
+// 	'as'	=>	'logout'
+// 	]);
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

@@ -13,7 +13,7 @@
         <li><a href="{{ route('usuarios.index') }}">Usuarios</a></li>
         <li><a href="{{ route('galeria.index') }}">Galería</a></li>
         <li><a href="">Sucursales</a></li>
-        <li><a class="dropdown-button" href="#!" data-activates="user_options">Jaime Rodriguez<i class="material-icons right">arrow_drop_down</i></a></li>
+        <li><a class="dropdown-button" href="#!" data-activates="user_options">{{ Auth::user()->name }}<i class="material-icons right">arrow_drop_down</i></a></li>
       </ul>
     </div>
     <ul class="center-align side-nav" id="mobile-demo">
