@@ -12,7 +12,7 @@
         <h4>Usuarios</h4>
       </div>
       <div class="col pull-s1 s1">
-        <a class="btn-floating btn-large waves-effect waves-light green tooltipped" data-position="right" data-delay="50" data-tooltip="Nuevo Usuario" href="{!! route('admin.usuarios.create') !!}"><i class="material-icons">add</i></a>
+        <a class="btn-floating btn-large waves-effect waves-light green tooltipped" data-position="right" data-delay="50" data-tooltip="Nuevo Usuario" href="{!! route('usuarios.create') !!}"><i class="material-icons">add</i></a>
       </div>
     </div>
     <div class="row">
@@ -35,22 +35,21 @@
     <tr>
      <th data-field="id">Id</th>
      <th data-field="name">Nombre</th>
-     <th data-field="sucursal">Email</th>
+     <th data-field="email">Email</th>
      <th data-field="option">Opciones</th>
    </tr>
  </thead>
  <tbody>
-{{--     {{ $usuarios[5]->sucursales }}
-{{ $usuarios[5]->tipo_usuario }} --}}
+
 @foreach($usuarios as $usuario)
 <tr>
  <td>{{ $usuario->id }}</td>
- <td>{{ $usuario->name }}</td>
+ <td>{{ $usuario->name }} {{ $usuario->last_name }}</td>
  <td>{{ $usuario->email }}</td>
  <td>
-  <a href="{!! route('admin.usuarios.edit', $usuario->id) !!}" class="btn-floating btn-small waves-effect waves-light amber accent-3 mr-5 tooltipped" data-position="right" data-delay="50" data-tooltip="Editar"><i class="material-icons">edit</i></a>
-  @if(Auth::user()->id != $usuario->id)
-  <a href="{!! route('admin.usuarios.destroy', $usuario->id) !!}" class="btn-floating btn-small waves-effect waves-light  red darken-1 mr-5 tooltipped" data-position="right" data-delay="50" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+  <a href="{!! route('usuarios.edit', $usuario->id) !!}" class="btn-floating btn-small waves-effect waves-light amber accent-3 mr-5 tooltipped" data-position="right" data-delay="50" data-tooltip="Editar"><i class="material-icons">edit</i></a>
+  @if($usuario->id != 1)
+  <a href="{!! route('usuarios.destroy', $usuario->id) !!}" class="btn-floating btn-small waves-effect waves-light  red darken-1 mr-5 tooltipped" data-position="right" data-delay="50" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
   @endif
   <a class="btn-floating btn-small waves-effect waves-light  grey darken-1 tooltipped" data-position="right" data-delay="50" data-tooltip="Cambiar Contraseña" onclick="change_password({{ $usuario->id }}, '{{ $usuario->name }}')"><i class="material-icons">vpn_key</i></a>
 </td>
@@ -99,9 +98,9 @@
   </div>
 </div>
 
-<div class="center-align">
+{{-- <div class="center-align">
  {!! (new Landish\Pagination\Materialize($usuarios))->render() !!}
-</div>
+</div> --}}
 </div>
 </div>
 
@@ -118,6 +117,6 @@ function change_password(id, nombre) {
   $("#cp_nombre").html(nombre);
   $('#id').val(id);
   $("#change_password").openModal();
-
 }
+
 @endsection

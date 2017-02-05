@@ -12,26 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 /*
 | Rutas para administrador
 */
+
 // Route::group(['prefix'=>'admin', 'middleware' => ['auth', 'admin']], function(){
 
-// 	Route::get('/', function(){
-// 		return view('admin.index');
-// 	});
-
-// 	Route::get('inicio', function(){
-// 		return view('admin.index');
-// 	})->name('admin.inicio');
-// });
-
-/*
-| Rutas para administrador
-*/
 Route::group(['prefix'=>'admin'], function(){
 
 	Route::get('/', function(){
@@ -62,6 +51,22 @@ Route::group(['prefix'=>'admin'], function(){
 		'uses' => 'UsuariosController@destroy',
 		'as' => 'admin.usuarios.destroy'
 		]); // se debe declarar despues del resource
+
+	/*
+	| Rutas para Galería
+	*/
+	Route::get('galeria/busqueda', [
+		'uses' => 'GalleryController@busqueda',
+		'as' => 'admin.galeria.busqueda'
+		]);
+
+	Route::resource('galeria','GalleryController');
+
+	Route::get('galeria/{id}/destroy', [
+		'uses' => 'GalleryController@destroy',
+		'as' => 'admin.galeria.destroy'
+		]); // se debe declarar despues del resource
+
 });
 /*
 | Rutas para login

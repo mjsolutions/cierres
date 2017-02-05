@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class UserRequest extends Request
+class GalleryRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,16 +27,15 @@ class UserRequest extends Request
             case 'POST':
             {
                 return [
-                    'name' => 'required',
-                    'password' => 'confirmed|required',
-                    'email' => 'unique:users,email,'
+                'nombre' => 'required',
+                'ruta' => 'confirmed|required'
                 ];
             }
             case 'PUT':
             {
                 return [
-                    'name' => 'required',
-                    'email' => 'unique:users,email,'.$this->segment(3)
+                'nombre' => 'required',
+                'ruta' => 'confirmed|required'
                 ];
             }
         }

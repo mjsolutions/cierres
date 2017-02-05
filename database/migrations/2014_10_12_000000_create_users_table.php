@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('second_name');
-            $table->boolean('status');
+            $table->boolean('status')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });

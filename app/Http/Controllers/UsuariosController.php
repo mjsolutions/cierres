@@ -31,7 +31,7 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        $usuarios=User::where('status',1)->orderBy('nombre','ASC')->paginate(10);
+        $usuarios=User::where('status',1)->orderBy('name','ASC')->paginate(10);
         return view('admin.usuarios.list')->with('usuarios',$usuarios);
     }
 
@@ -63,7 +63,7 @@ class UsuariosController extends Controller
         }
 
         
-        return redirect()->route('admin.usuarios.index');
+        return redirect()->route('usuarios.index');
     }
 
     /**
@@ -99,7 +99,36 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate = false;
+
+        DB::beginTransaction();
+
+        try {
+
+            $usuario = User::find($id);
+            $usuario->fill($request->all());
+            if ($usuario->save()) {
+                $validate = true;
+            }else{
+                $validate = false;
+            }
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $validate = false;
+            $fail = $e;
+            // throw $e;
+        }
+
+        if($validate) {
+            Flash::overlay('Se ha actualizado '.$usuario->nombre.' de forma exitosa.', 'Modificación exitosa');
+        }else{
+            Flash::overlay('Ha ocurrido un error al actualizar al usuario  '.$usuario->nombre." : ".$fail, 'Error');            
+        }
+        
+        return redirect()->route('admin.usuarios.index');
     }
 
     public function change_password(CPRequest $req){
@@ -118,7 +147,7 @@ class UsuariosController extends Controller
             Flash::overlay('Contraseña de administrador incorrecta', 'Error');
         }
 
-        $route = "admin.usuarios.index";
+        $route = "usuarios.index";
 
         if($req->id == Auth::user()->id){
             $route = "logout";
@@ -145,22 +174,22 @@ class UsuariosController extends Controller
             Flash::overlay('Ha ocurrido un erro al eliminar al usuario ' . $usuario->nombre, 'Error');
         }
 
-        return redirect()->route('admin.usuarios.index');
+        return redirect()->route('usuarios.index');
     }
 
     public function busqueda(Request $req){
         $data=$req->data;
         $data=explode(" ",trim($data));
         $usuarios = User::where(function($query) use ($data) {
-                        foreach ($data as $dato) {
-                            $query->where('users.name', 'like', '%'.$dato.'%')
-                            ->orwhere('users.last_name', 'like', '%'.$dato.'%')
-                            ->orwhere('users.second_name', 'like', '%'.$dato.'%')
-                            ->orwhere('users.id', 'like', '%'.$dato.'%')
-                            ->orwhere('users.email', 'like', '%'.$dato.'%');
-                        }
-                    })->orderBy('name', 'DESC')
-                    ->paginate(10);
+            foreach ($data as $dato) {
+                $query->where('users.name', 'like', '%'.$dato.'%')
+                ->orwhere('users.last_name', 'like', '%'.$dato.'%')
+                ->orwhere('users.second_name', 'like', '%'.$dato.'%')
+                ->orwhere('users.id', 'like', '%'.$dato.'%')
+                ->orwhere('users.email', 'like', '%'.$dato.'%');
+            }
+        })->orderBy('name', 'DESC')
+        ->paginate(10);
         return view('admin.usuarios.list')->with('usuarios',$usuarios);
     }
 

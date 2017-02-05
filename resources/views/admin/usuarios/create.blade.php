@@ -4,7 +4,7 @@
 @include('admin.nav')
 @endsection
 @section('content')
-{!! Form::open(['route'=>'admin.usuarios.store', 'method'=>'POST']) !!}
+{!! Form::open(['route'=>'usuarios.store', 'method'=>'POST']) !!}
 <div class="container">
   <div class="card-panel">
     <div class="center-align">

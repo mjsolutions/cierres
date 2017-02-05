@@ -16,9 +16,10 @@ class CreateGalleryTable extends Migration
         Schema::create('galeria', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('ruta');
+            $table->string('ruta')->nullable();
             $table->string('tipo');
             $table->text('descripcion');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
